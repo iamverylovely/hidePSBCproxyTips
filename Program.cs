@@ -42,7 +42,7 @@ namespace hidePSBCproxyTips
                                 int Pid;
                                 GetWindowThreadProcessId(hWnd, out Pid);
                                 string name = Process.GetProcessById(Pid).ProcessName;
-                                if (name.Equals("PSBCInput"))
+                                if (name!=null && name.Equals("PSBCInput"))
                                 {
                                     IntPtr childHwnd = FindWindowEx(hWnd, IntPtr.Zero, null, "确定");
                                     if (childHwnd != IntPtr.Zero)
@@ -64,10 +64,10 @@ namespace hidePSBCproxyTips
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
+        private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
 
         [DllImport("kernel32.dll")]
-        public static extern int OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+        private static extern int OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
         [DllImport("user32.dll", EntryPoint = "FindWindowEx")]
         private extern static IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
